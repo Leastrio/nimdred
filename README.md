@@ -1,4 +1,4 @@
-# <img src="assets/nimdred_logo.png" width="42px" height="32px"/>  Nimdred
+# <img src="assets/nimdred_logo.png"/>  Nimdred
 An LCU library for the nim language
 
 ## Usage Example
