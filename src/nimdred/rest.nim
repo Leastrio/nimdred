@@ -1,17 +1,17 @@
 import objects
 import std/[httpclient, strformat, asyncdispatch]
 
-proc GET*(self: NimdredClient, path: string): Future[AsyncResponse] {.async.} =
-  return await self.httpClient.get(&"https://127.0.0.1:{self.port}{path}")
+proc get*(self: NimdredClient, path: string): Future[AsyncResponse] {.async.} =
+  return await self.httpClient.request(&"https://127.0.0.1:{self.port}{path}", HttpGet, "", self.headers)
 
-proc POST*(self: NimdredClient, path: string, body: string): Future[AsyncResponse] {.async.} =
-  return await self.httpClient.post(&"https://127.0.0.1:{self.port}{path}", body)
+proc post*(self: NimdredClient, path: string, body: string): Future[AsyncResponse] {.async.} =
+  return await self.httpClient.request(&"https://127.0.0.1:{self.port}{path}", HttpPost, body, self.headers)
 
-proc PATCH*(self: NimdredClient, path: string, body: string): Future[AsyncResponse] {.async.} =
-  return await self.httpClient.patch(&"https://127.0.0.1:{self.port}{path}", body)
+proc patch*(self: NimdredClient, path: string, body: string): Future[AsyncResponse] {.async.} =
+  return await self.httpClient.request(&"https://127.0.0.1:{self.port}{path}", HttpPatch, body, self.headers)
 
-proc DELETE*(self: NimdredClient, path: string): Future[AsyncResponse] {.async.} =
-  return await self.httpClient.delete(&"https://127.0.0.1:{self.port}{path}")
+proc delete*(self: NimdredClient, path: string): Future[AsyncResponse] {.async.} =
+  return await self.httpClient.request(&"https://127.0.0.1:{self.port}{path}", HttpDelete, "", self.headers)
 
-proc PUT*(self: NimdredClient, path: string, body: string): Future[AsyncResponse] {.async.} =
-  return await self.httpClient.put(&"https://127.0.0.1:{self.port}{path}", body)
+proc put*(self: NimdredClient, path: string, body: string): Future[AsyncResponse] {.async.} =
+  return await self.httpClient.request(&"https://127.0.0.1:{self.port}{path}", HttpPut, body, self.headers)

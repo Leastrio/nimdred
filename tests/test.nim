@@ -5,9 +5,15 @@
 #
 # To run these tests, simply execute `nimble test`.
 
-import unittest
+import unittest, json, asyncdispatch
 import nimdred
 
 test "connect":
-  discard newNimdred()
+  echo newNimdred()
+
+test "set status":
+  var body = %*{
+    "statusMessage": "Status set by nimdred!"
+  }
+  discard waitFor newNimdred().put("/lol-chat/v1/me", $body)
   

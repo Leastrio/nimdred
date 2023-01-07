@@ -5,16 +5,19 @@ type
     NimdredClient* = object
         port*: string
         httpClient*: AsyncHttpClient
+        headers*: HttpHeaders
     ClientCreationException* = object of OSError
 
-proc createHttpClient(token: string): AsyncHttpClient =
+proc createHttpClient(): AsyncHttpClient =
   return newAsyncHttpClient(
     sslContext=newContext(caFile="./riotgames.pem"),
-    headers=newHttpHeaders({
-      "Authorization": "Basic " & encode("riot:" & token),
-      "Content-Type": "application/json"
-    })
   )
+
+proc createHeaders(token: string): HttpHeaders =
+  return newHttpHeaders({
+    "Authorization": "Basic " & encode("riot:" & token),
+    "Content-Type": "application/json"
+  })
 
 proc newNimdred*(): NimdredClient =
   var 
@@ -24,7 +27,8 @@ proc newNimdred*(): NimdredClient =
   if creds.isSome():
     return NimdredClient(
       port: creds.get().port,
-      httpClient: createHttpClient(creds.get().token)
+      httpClient: createHttpClient(),
+      headers: createHeaders(creds.get().token)
     )
   else:
     args = getCmdArgs()
@@ -33,7 +37,8 @@ proc newNimdred*(): NimdredClient =
       if creds.isSome():
         return NimdredClient(
           port: creds.get().port,
-          httpClient: createHttpClient(creds.get().token)
+          httpClient: createHttpClient(),
+          headers: createHeaders(creds.get().token)
         )
   raise ClientCreationException.newException("Failed to create client.")
         
