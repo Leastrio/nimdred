@@ -21,7 +21,7 @@ var body = %*{
   "statusMessage": "Status set by nimdred!"
 }
 
-waitFor client.post("/lol-chat/v1/me", $body)
+waitFor client.put("/lol-chat/v1/me", $body)
 ```
 
 Make sure to compile with ssl `-d:ssl`
